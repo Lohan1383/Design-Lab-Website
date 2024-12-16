@@ -1,95 +1,738 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Audio Frequency Graph in Three.js</title>
-  <link rel="stylesheet" href="./style.css">
-  <style>
-    canvas {
-      display: block;
-      width: 100%;
-      height: 100vh;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Lab Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+       html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+        }
+
+        html, body {
+    margin: 0; /* Remove default browser margin */
+    padding: 0; /* Remove default browser padding */
+    width: 100%; /* Ensure the body takes full width */
+    height: 100%; /* Ensures the body and HTML span the full height of the viewport */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+body {
+    display: flex; /* Use flexbox to structure layout */
+    flex-direction: column; /* Align content in a column layout */
+    background: #4A4A4A url('Home-Page-Body-background1.png') no-repeat center center;
+    background-size: cover; /* Ensures the background image covers the full area */
+    background-attachment: fixed; /* Keeps the background fixed on larger screens */
+    min-height: 100%; /* Guarantees that the background will fill the height of the page */
+}
+
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll; /* Fix background issues on small screens */
+        background-size: cover; /* Ensure the background fits without distortion */
     }
-  </style>
+}
+
+#content {
+    flex: 1; /* Makes the content stretch to ensure the body fills the full height */
+}
+
+
+
+
+        /* Global Reset for the header */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styling the header */
+/* Styling the header */
+header {
+    display: flex;
+    justify-content: space-between;  /* Space between logo and burger */
+    align-items: center;             /* Vertically centers items */
+    padding: 10px 20px;              /* Padding inside the header */
+    background-color: #333;          /* Dark background for the header */
+    color: white;                    /* White text */
+    position: relative;                 /* Make the header fixed */
+    top: 0;                          /* Stick it to the top of the page */
+    left: 0;                         /* Align it to the left */
+    width: 100%;                     /* Ensure it stretches across the entire width */
+    z-index: 1000;                   /* Ensures the header is on top of other content */
+    margin-bottom: 100px;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 10px 15px;           /* Reduce padding on smaller screens */
+        flex-direction: column;       /* Stack the header items vertically */
+        align-items: flex-start; 
+        position: sticky;     /* Align items to the left */
+    }
+}
+
+/* Further adjustments for very small screens */
+@media screen and (max-width: 480px) {
+    header {
+        padding: 8px 10px;            /* Further reduce padding */
+        margin-bottom: 30px;
+    }
+}
+
+/* Logo Styling */
+header .logo img {
+    height: 150px;                    /* Adjust logo size */
+    width: auto;                      /* Maintain aspect ratio */
+    margin-left: 100px;
+}
+
+/* Media query for smaller screens (tablets and below) */
+@media screen and (max-width: 768px) {
+    header .logo img {
+        height: 80px;                 /* Adjust logo size for smaller screens */
+        margin-left: 10px;
+    }
+}
+
+/* Media query for very small screens (mobile devices) */
+@media screen and (max-width: 480px) {
+    header .logo img {
+        height: 60px;                 /* Further adjust logo size for mobile screens */
+    }
+}
+
+/* Burger Menu Styling */
+.burger-menu {
+    display: none;                   /* Hidden by default */
+    flex-direction: column;          /* Align the burger lines vertically */
+    justify-content: space-between;
+    width: 30px;                     /* Width of the burger */
+    height: 21px;                    /* Height for 3 lines */
+    cursor: pointer;                 /* Indicates it's clickable */
+}
+
+.burger-line {
+    width: 30px;                     /* Width of the lines */
+    height: 4px;                     /* Thickness of the lines */
+    background-color:  #3047C7;          /* White color for burger lines */
+    border-radius: 5px;              /* Slight rounding of the edges */
+}
+
+/* Navigation Styles */
+nav#navbar ul {
+    display: flex;                   /* Flexbox for horizontal layout */
+    list-style-type: none;            /* Removes default list styling */
+    margin-right: 100px;
+}
+
+nav#navbar ul li {
+    margin: 0 15px;                  /* Space between navigation links */
+}
+
+nav#navbar ul li a {
+    text-decoration: none;           /* Removes underline from links */
+    color: white;                    /* White text for links */
+    font-size: 22px;                  /* Set font size */
+    font-weight: lighter;                /* Bold font for links */
+    transition: color 0.3s ease;      /* Smooth color change on hover */
+}
+
+nav#navbar ul li a:hover {
+    color: #3047C7;                   /* Hover color change */
+    
+}
+
+
+
+
+
+
+
+
+/* Responsive Styling for Smaller Screens */
+@media screen and (max-width: 768px) {
+    /* Hide navbar on small screens and show burger menu */
+    nav#navbar ul {
+        display: none;                /* Hide navigation */
+        position: absolute;
+        top: 70px;                    /* Position it just below the header */
+        right: 0;
+        width: 100%;
+        background-color: #333;       /* Dark background for mobile menu */
+        flex-direction: column;       /* Stack links vertically */
+        padding: 10px 0;
+    }
+
+    nav#navbar ul.active {
+        display: flex;                /* Show navigation when burger is clicked */
+    }
+    nav#navbar ul li a {
+    text-decoration: none;           /* Removes underline from links */
+    color: white;                    /* White text for links */
+    font-size: 16px;                  /* Set font size */
+    font-weight: lighter;                /* Bold font for links */
+    transition: color 0.3s ease;      /* Smooth color change on hover */
+}
+
+    /* Show burger menu on smaller screens */
+.burger-menu {
+    display: flex;                 /* Make the burger visible */
+    position: absolute;            /* Allows positioning relative to the header */
+    right: 30px;                   /* Adjusts distance from the right edge */
+    top: 40px;                     /* Adjusts vertical position */
+    cursor: pointer;               /* Changes cursor to pointer for interactivity */
+}
+
+
+    /* Adjust the links for mobile */
+    nav#navbar ul li {
+        margin: 10px 0;                /* Space between links */
+        text-align: center;            /* Center the links */
+        font-size: 8px;               /* Adjust the font size of list items */
+        color: #fff;                   /* Ensure the links are white */
+    }
+}
+
+.our-clients-section {
+    text-align: center;
+    margin: 0px 0;
+    margin-bottom: 200px;
+    padding: 20px;
+    background-color:none;
+    
+}
+
+.our-clients-section h2 {
+    font-size: 2em;
+    margin-bottom: 80px;
+    color: #ffffff;
+}
+
+.clients-logos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 80px;
+    
+}
+
+.client-logo {
+    max-width: 250px;
+    max-height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add box shadow */
+}
+
+.client-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover */
+}
+
+/* Adjust the layout for medium screens (tablets and smaller) */
+@media (max-width: 768px) {
+    .client-logo {
+        max-width: 200px; /* Increase image size for medium screens */
+        max-height: auto; /* Allow height to adjust proportionally */
+        margin-top: 10px;
+    }
+    .client-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover */
+}
+
+    .our-clients-section h2 {
+        font-size: 2em; /* Slightly larger heading */
+    }
+}
+
+/* Adjust the layout for very small screens (mobile phones) */
+@media (max-width: 480px) {
+    .clients-logos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .client-logo {
+        max-width: 150px; /* Larger images for smaller screens */
+        max-height: auto; /* Maintain aspect ratio */
+        margin-bottom: 15px; /* Increase spacing between logos */
+    }
+    .client-logo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Enhance shadow on hover */
+}
+
+    .our-clients-section h2 {
+        font-size: 1.8em; /* Make the heading larger for better visibility */
+    }
+}
+
+    /* Base Portfolio and CTA Button styling */
+.portfolio-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    margin: 0 auto;
+    width: 90%;
+    margin-top: 100px;
+    
+}
+
+.portfolio-item {
+    background-color: #3333335c;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 1100px;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-top: 0px;
+    margin-bottom: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-item img {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+.portfolio-item h3 {
+    font-size: 2em;
+    margin: 15px 0 10px;
+    color: #ffffff;
+}
+
+.portfolio-item p {
+    color: #ffffff;
+    text-align: left;
+    font-size: 1.33em;
+}
+
+.cta-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.cta-button .btn {
+    text-decoration: none;
+    background-color: #3047C7;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+    margin-bottom: 200px;
+}
+
+/* For tablets and smaller screens */
+@media (max-width: 768px) {
+    .cta-button .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+}
+
+/* For mobile phones and very small screens */
+@media (max-width: 480px) {
+    .cta-button .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        margin-bottom: 0px;
+        border-radius: 3px;
+    }
+}
+
+.cta-button .btn:hover {
+    background-color: #00b312;
+}
+
+/* Media Queries */
+
+/* Medium screens (tablets, < 768px) */
+@media (max-width: 768px) {
+    .portfolio-container {
+        gap: 10px; /* Reduce gap for smaller screens */
+        padding: 15px;
+        margin-top: 30px;
+    }
+
+    .portfolio-item {
+        margin: 10px; /* Reduce margin for smaller screens */
+    }
+
+    .portfolio-item h3 {
+        font-size: 1.5em; /* Adjust font size for smaller screens */
+    }
+
+    .portfolio-item p {
+        font-size: 1.2em; /* Slightly smaller font size */
+    }
+
+    .cta-button .btn {
+        font-size: 1rem; /* Adjust button font size */
+        padding: 10px 20px; /* Adjust button padding */
+    }
+}
+
+/* Small screens (phones, < 480px) */
+@media (max-width: 480px) {
+    .portfolio-container {
+        width: 100%; /* Use full screen width */
+        padding: 10px;
+    }
+
+    .portfolio-item {
+        padding: 10px; /* Adjust padding for small screens */
+        margin: 5px; /* Reduce margin further */
+        margin-bottom: 30px;
+    }
+
+    .portfolio-item h3 {
+        font-size: 1.2em; /* Further reduce font size */
+    }
+
+    .portfolio-item p {
+        font-size: .9em; /* Smaller font size */
+        text-align: justify; /* Optional: Justify text for better readability */
+    }
+
+    .cta-button {
+        margin-top: 20px;
+    }
+
+    .cta-button .btn {
+        font-size: 0.9rem; /* Smaller button size */
+        padding: 8px 15px; /* Compact padding */
+        margin-bottom: 200px;
+    }
+
+}
+
+footer {
+            text-align: center;
+            display: flex;
+            padding: 10px;
+            color: rgb(157, 156, 156);
+            margin-top: 50px;
+            justify-content: space-evenly;
+        }
+
+
+/* Welcome Heading */
+.welcome-heading h1 {
+    font-size: 3.5em;                     /* Large font size for the main heading */
+    color: #ffffff;                      /* White text color */
+    font-weight: bold;                   /* Bold text */
+    text-align: center;                  /* Center the heading */
+    margin-top: 200px;                    /* Space at the top */
+    margin-bottom: 50px;                 /* Space at the bottom */
+    font-family: 'Arial', sans-serif;    /* Font style */
+}
+
+/* Welcome Paragraph */
+.welcome-paragraph p {
+    font-size: 1.2rem;                     /* Readable font size */
+    color: #fffdfd;                      /* Slightly lighter text color */
+    line-height: 1.6;                    /* Improved line spacing */
+    text-align: left;                  /* Center the paragraph */
+    margin: 0 auto 50px;                 /* Center and add space at the bottom */
+    max-width: 1000px;                    /* Max width for better readability */
+    font-family: 'montserrat', sans-serif;    /* Font style */
+}
+
+/* Our Expertise Heading */
+.Our-Expertise-heading p {
+    font-size: 3em;                     /* Slightly smaller than the main heading */
+    color: #3047C7;                      /* Accent color */
+    font-weight: bold;                   /* Bold text */
+    text-align: center;                  /* Center the heading */
+    margin-top: 40px;                    /* Space above */
+    margin-bottom: 70px;                 /* Space below */
+    font-family: 'Arial', sans-serif;    /* Font style */
+}
+
+/* Media Query for Small Screens */
+@media screen and (max-width: 768px) {
+
+    /* Adjust Welcome Heading for smaller screens */
+    .welcome-heading h1 {
+        font-size: 36px;                 /* Reduce font size */
+        margin-top: 30px;                /* Less space on top */
+        margin-bottom: 15px;             /* Less space on the bottom */
+    }
+
+    /* Adjust Welcome Paragraph for smaller screens */
+    .welcome-paragraph p {
+        font-size: 1.5rem;                 /* Smaller font size */
+        margin-bottom: 30px;             /* Adjust bottom margin */
+        max-width: 90%;   
+        text-align: center;               /* Increase max-width for smaller screens */
+    }
+
+    /* Adjust Our Expertise Heading for smaller screens */
+    .Our-Expertise-heading p {
+        font-size: 20px;                 /* Smaller font size */
+        margin-top: 30px;                /* Less space on top */
+        margin-bottom: 0px;             /* Less space at the bottom */
+    }
+}
+
+/* Media Query for Extra Small Screens */
+@media screen and (max-width: 480px) {
+
+    /* Adjust Welcome Heading for very small screens */
+    .welcome-heading h1 {
+        font-size: 28px;                 /* Even smaller font size */
+        margin-top: 50px;                /* Less space on top */
+        margin-bottom: 25px;             /* Less space on the bottom */
+    }
+
+    /* Adjust Welcome Paragraph for very small screens */
+    .welcome-paragraph p {
+        font-size: 14px;                 /* Smaller font size */
+        margin-bottom: 20px;             /* Adjust bottom margin */
+        max-width: 95%;                  /* Increase max-width for small screens */
+    }
+
+    /* Adjust Our Expertise Heading for very small screens */
+    .Our-Expertise-heading p {
+        font-size: 18px;                 /* Smaller font size */
+        margin-top: 20px;                /* Less space on top */
+        margin-bottom: 10px;             /* Less space at the bottom */
+    }
+}
+.welcome-image {
+            display: flex;
+            justify-content: center; /* Centers content horizontally */
+            align-items: center;    /* Centers content vertically if needed */
+            height: 300vh;          /* Optional: Full viewport height */
+            background-color:grey; /* Optional: Background color for visualization */
+            margin-top: 200px;
+            margin-bottom: 200px;
+        }
+        .welcome-image img {
+            width: 100%;
+            height: auto;    /* Maintains aspect ratio */
+        } 
+        /* Media query for smaller screens (e.g., tablets and phones) */
+        @media (max-width: 768px) {
+            .welcome-image {
+                margin-top: 50px; /* Reduce top margin for smaller screens */
+                margin-bottom: 50px; /* Reduce bottom margin */
+                height: auto; /* Let height adjust naturally */
+            }
+        }
+
+        /* Media query for very small screens (e.g., phones in portrait mode) */
+        @media (max-width: 480px) 
+           {} .welcome-image {
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }  
+            .we-specialise-in {
+    display: flex;                      /* Enable Flexbox layout */
+    flex-direction: column;             /* Stack children vertically */
+    justify-content: center;            /* Center children vertically */
+    align-items: flex-start;            /* Align children to the left horizontally */
+   
+    padding: 50px;
+    margin: 180px auto 40px;            /* Combined margin */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    max-width: 1200px;                  /* Constrain width on large screens */
+}
+
+.we-specialise-in h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    margin-top: 50px;
+    width: 100%;
+    font-weight: bold;
+    color: #3047C7;
+}
+
+.we-specialise-in ul {
+    list-style-type: none;              /* Remove default bullet points */
+    padding: 0;                         /* Remove default padding */
+    margin: 0;                          /* Remove default margin */
+}
+
+.we-specialise-in ul li {
+    font-size: 1.5em;                   /* Adjust font size */
+    color: #ffffff;                     /* Set text color */
+    margin: 10px 0;                     /* Better vertical spacing */
+    line-height: 1.6;                   /* Improved line spacing */
+    text-align: left;                   /* Ensure text aligns left */
+}
+
+/* Media Queries */
+
+/* For tablets and smaller devices */
+@media (max-width: 768px) {
+    .we-specialise-in {
+        padding: 15px;
+        max-width: 90%;                 /* Reduce width to fit smaller screens */
+    }
+    .we-specialise-in h2 {
+        font-size: 2em;                 /* Slightly smaller heading */
+    }
+    .we-specialise-in ul li {
+        font-size: 1em;                 /* Adjust font size for list items */
+    }
+}
+
+/* For smartphones */
+@media (max-width: 480px) {
+    .we-specialise-in {
+        padding: 10px;
+        margin: 10px auto;              /* Reduce margin */
+    }
+    .we-specialise-in h2 {
+        font-size: 1.8em;               /* Smaller heading for compact screens */
+    }
+    .we-specialise-in ul li {
+        font-size: 0.9em;               /* Smaller font for list items */
+    }
+}
+
+
+    
+    </style>
 </head>
 <body>
-  <button id="info">Click to use audio</button>
-  <div class="debug-panel">
-    <div class="debug-item">
-      Low Freq:
-      <span class="value" id="lowFreq">0</span>
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="welcome-image.png" alt="Logo">
+            </a>
+        </div>
+        
+        <div class="burger-menu" onclick="toggleMenu()">
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+        </div>
+        <nav id="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact us.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="welcome-heading">
+        <h1> Welcome To Design Lab</h1>
     </div>
-    <div class="debug-item">
-      Mid Freq:
-      <span class="value" id="midFreq">0</span>
+    
+    <div class="welcome-paragraph">
+        <p>At Design Lab, we bring your creative ideas to life through cutting-edge design and innovative solutions. Whether you’re looking for custom branding, stunning websites, or graphic design that stands out, we’re here to help you make an impact.</p>
     </div>
-    <div class="debug-item">
-      High Freq:
-      <span class="value" id="highFreq">0</span>
+
+    <div class="Our-Expertise-heading">
+        <p> Elevating Brands with Creativity and Technology</p>
     </div>
-  </div>
+    <div class="welcome-image">
+        <img src="hero-img-home1.png" alt="Welcome Image">
+    </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <div class="we-specialise-in">
+    <h2>We Specialise In</h2>
+    <ul>
+        <li>&#8226 Web Development</li>
+        <li>&#8226 Graphic Design</li>
+        <li>&#8226 Digital Marketing</li>
+        <li>&#8226 Mobile App Development</li>
+    </ul>
+</div>
 
-  <script>
-    let scene, camera, renderer, bars = [];
-    const barCount = 32; // Number of frequency bars
-    const barWidth = 1;
-    const barHeightMultiplier = 5; // Adjust height of bars based on frequency data
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioContext.createAnalyser();
-    analyser.fftSize = 256; // Size of the FFT
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+    <div class="portfolio-container">
+        <div class="portfolio-item">
+            <img src="web-dev-bg.png" alt="Project Image">
+            <h3>Web Development</h3>
+            <p>Creating responsive and visually appealing websites tailored to client needs.</p>
+        </div>
+        <div class="portfolio-item">
+            <img src="Graphic-design-bg.png" alt="Project Image">
+            <h3>Graphic Design</h3>
+            <p>Designing logos, branding elements, and marketing materials like brochures and ads.</p>
+        </div>
+        <div class="portfolio-item">
+            <img src="digital-marketing-bg.png" alt="Project Image">
+            <h3>Digital Marketing</h3>
+            <p>Assisting with website SEO, social media integration, and online advertising campaigns.</p>
+        </div>
+        <div class="portfolio-item">
+            <img src="Branding-design.png" alt="Project Image">
+            <h3>Branding</h3>
+            <p>Building strong and consistent brand identities that resonate across all platforms and drive business success.</p>
+        </div>
+    </div>
 
-    // Set up Three.js
-    function init() {
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      document.body.appendChild(renderer.domElement);
-      camera.position.z = 15;
+    <div class="cta-button">
+        <a href="contact us.html" class="btn">Get in Touch</a>
+    </div>
 
-      // Create bars
-      for (let i = 0; i < barCount; i++) {
-        const geometry = new THREE.BoxGeometry(barWidth, 1, barWidth);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const bar = new THREE.Mesh(geometry, material);
-        bar.position.x = i * (barWidth + 0.5) - (barCount * (barWidth + 0.5)) / 2;
-        bars.push(bar);
-        scene.add(bar);
-      }
+    <div class="our-clients-section">
+    <h2>Our Featured Clients</h2>
+    <div class="clients-logos">
+        <img src="Logo Project 1.png" alt="Client 1 Logo" class="client-logo">
+        <img src="Logo Project 2.png" alt="Client 2 Logo" class="client-logo">
+        <img src="Logo Project 3.png" alt="Client 3 Logo" class="client-logo">
+        <img src="Logo Project 4.png" alt="Client 4 Logo" class="client-logo">
+        <img src="Logo Project 5.png" alt="Client 1 Logo" class="client-logo">
+        <img src="Logo Project 6.png" alt="Client 2 Logo" class="client-logo">
+        <img src="Logo Project 7.png" alt="Client 3 Logo" class="client-logo">
+        <img src="Logo Project 8.png" alt="Client 4 Logo" class="client-logo">
+        <!-- Add more logos as needed -->
+    </div>
+</div>  
+    
+    <footer>
+        <p>&copy; 2024 Design Lab. All Rights Reserved.</p>
+    </footer>
 
-      animate();
-    }
+    <script>
+        function toggleMenu() {
+    const nav = document.querySelector("nav#navbar ul");
+    nav.classList.toggle("active");
+}
 
-    function animate() {
-      requestAnimationFrame(animate);
-      updateBars();
-      renderer.render(scene, camera);
-    }
+// Close the menu when a link is clicked
+document.querySelectorAll("nav#navbar ul li a").forEach(link => {
+    link.addEventListener("click", () => {
+        const nav = document.querySelector("nav#navbar ul");
+        nav.classList.remove("active");
+    });
+});
 
-    function updateBars() {
-      analyser.getByteFrequencyData(dataArray);
-      for (let i = 0; i < barCount; i++) {
-        const barHeight = dataArray[i] * barHeightMultiplier / 255; // Normalize to [0,1]
-        bars[i].scale.y = barHeight;
-        bars[i].position.y = barHeight / 2; // Adjust position to keep bottom at zero
-      }
-    }
-
-    // Audio setup
-    document.getElementById('info').onclick = () => {
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(stream => {
-          const source = audioContext.createMediaStreamSource(stream);
-          source.connect(analyser);
-          analyser.connect(audioContext.destination);
-        });
-    };
-
-    init();
-  </script>
+    </script>
 </body>
 </html>
